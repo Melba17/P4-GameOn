@@ -12,9 +12,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- ENTÊTE -->
@@ -51,12 +54,16 @@
             Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux
             réservations... Places limitées !
           </p>
+          <!-- 1er bouton -->
           <button class="btn-signup modal-btn">je m'inscris</button>
         </div>
         <!-- Partie de droite -->
         <div class="hero-img">
           <img src="images/bg_img.jpg" alt="img" />
         </div>
+        <!-- 2ème bouton qui n'apparaît qu'au-dessous de 990px -->
+        <button class="btn-signup modal-btn">je m'inscris</button>
+      </div>
       <!-- MODALE -->
       <div class="bground">
         <div class="content">
@@ -70,7 +77,7 @@
               onsubmit="return validate();"
               novalidate
             >
-            <!-- CHAÎNE DE CARACTÈRES -->
+              <!-- CHAÎNE DE CARACTÈRES -->
               <div class="formData">
                 <label for="first">Prénom</label><br />
                 <input
@@ -111,8 +118,8 @@
               </div>
               <!-- VALEUR NUMÉRIQUE -->
               <div class="formData">
-                <label
-                  for="quantity">À combien de tournois GameOn avez-vous déjà participé
+                <label for="quantity"
+                  >À combien de tournois GameOn avez-vous déjà participé
                   ?</label
                 ><br />
                 <input
@@ -120,16 +127,15 @@
                   class="text-control"
                   id="quantity"
                   name="quantity"
-                  min="18"
+                  min="0"
                   max="99"
                 />
               </div>
-
-              <!-- BOUTONS RADIO -->
               <div class="formData">
-                <p class="text-label">
-                A quel tournoi souhaitez-vous participer cette année ?
-              </p>
+                <p class="label">
+                  À quel tournoi souhaitez-vous participer cette année ?
+                </p>
+                <!-- BOUTONS RADIO -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -193,11 +199,7 @@
               </div>
               <!-- 2 CHECKBOXES -->
               <div class="formData">
-                <input
-                  class="checkbox-input"
-                  type="checkbox"
-                  id="checkbox1"
-                />
+                <input class="checkbox-input" type="checkbox" id="checkbox1" />
                 <label class="checkbox2-label" for="checkbox1">
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
@@ -211,11 +213,7 @@
                 <br />
               </div>
               <!-- BOUTON D'ENVOI -->
-              <input
-                class="btn-submit button"
-                type="submit"
-                value="C'est parti"
-              />
+              <input class="btn-submit" type="submit" value="C'est parti" />
             </form>
           </div>
         </div>
