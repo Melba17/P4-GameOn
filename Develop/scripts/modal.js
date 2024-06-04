@@ -1,30 +1,32 @@
 // VARIABLES POUR LA MODALE
 // Sélection du fond sur lequel s'affiche la Modale.
 const modalbg = document.querySelector(".bground");
+const modalSuccess = document.querySelector(".modal_success");
 // Sélection des boutons pour ouvrir la modale.
 const modalBtn = document.querySelectorAll(".modal-btn");
 // Sélection de l'élément de fermeture de la Modale, ici, la croix.
 const closeBtn = document.querySelector(".close");
+const closeSuccessBtn = document.querySelector(".modal_success .close");
 
+// FONCTION POUR OUVRIR LA MODALE 
+// Fonction pour lancer la modale. Elle s'ouvre au clic parce que la fonction launchModal() est attachée à l'événement click du bouton via un gestionnaire d'événements. Lorsque le bouton avec la classe modal-btn est cliqué, l'événement click est déclenché. Comme la fonction launchModal a été assignée comme gestionnaire de cet événement, elle est automatiquement appelée.
+function launchModal() {
+  modalbg.style.display = "block";
+}
+// FONCTION POUR FERMER LA MODALE
+function closeModal() {
+  modalbg.style.display = "none";
+}
+// FONCTION POUR FERMER LA MODALE DE SUCCÈS
+function closeSuccessModal() {
+  modalSuccess.style.display = "none";
+}
 // GESTIONNAIRES D'ÉVÈNEMENTS
 // Ajout de l'événement click aux boutons
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix.
 closeBtn.addEventListener("click", closeModal);
-
-// FONCTION POUR OUVRIR LA MODALE 
-// Fonction pour lancer la modale - elle change le style de l'élément modalbg pour le rendre visible en définissant sa propriété display à block.
-// En résumé, la modale s'ouvre au clic parce que la fonction launchModal() est attachée à l'événement click du bouton via un gestionnaire d'événements. Lorsque le bouton avec la classe modal-btn est cliqué, l'événement click est déclenché. Comme la fonction launchModal a été assignée comme gestionnaire de cet événement, elle est automatiquement appelée.
-function launchModal() {
-  modalbg.style.display = "block";
-}
-
-
-// FONCTION POUR FERMER LA MODALE
-function closeModal() {
-  modalbg.style.display = "none";
-}
-
+closeSuccessBtn.addEventListener("click", closeSuccessModal);
 
 // FORMULAIRE
 // Sélectionne le formulaire ayant l'attribut name="reserve".
@@ -107,7 +109,7 @@ function validateForm(event) {
   const isEmailValid = validateField(
     emailField,
     emailRegex.test(email),
-    "L'adresse email n'est pas valide"
+    "L'adresse email n'est pas valide."
   );
   // Si l'email n'est pas valide, isFormValid est mis à false.
   if (!isEmailValid) isFormValid = false;
@@ -131,11 +133,21 @@ function validateForm(event) {
   // Valide le champ Nombre de tournois.
   // Si la valeur n'est pas un nombre ou est vide, affiche un message d'erreur.
   const quantityField = document.getElementById('quantity').parentNode;
+  const quantityValue = document.getElementById('quantity').value.trim();
   const isQuantityValid = validateField(
     quantityField,
-    !isNaN(document.getElementById('quantity').value) && document.getElementById('quantity').value.trim() !== "",
-    "Veuillez nous donner un chiffre"
+    !isNaN(quantityValue) && quantityValue !== "" && Number(quantityValue) > 0,
+    "Veuillez entrer un chiffre supérieur à zéro."
   );
+// Ajout d'un écouteur d'événement input pour le champ de quantité pour forcer la valeur à 0 si une valeur négative est saisie.
+  const quantityInput = document.getElementById('quantity');
+
+  quantityInput.addEventListener('input', function() {
+  if (quantityInput.value < 0) {
+    quantityInput.value = 0;
+  }
+  });
+
   // Si la quantité n'est pas valide, isFormValid est mis à false.
   if (!isQuantityValid) isFormValid = false;
   console.log("Validation quantité:", isQuantityValid);
@@ -161,14 +173,14 @@ function validateForm(event) {
      currentElement = currentElement.parentNode;
    }
    // Valide le champ "Location". Si aucune ville n'est sélectionnée, affiche un message d'erreur.
-   if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville")) isFormValid = false;
+   if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
 
 
   // Valide la checkbox des conditions générales
   const checkboxField = document.getElementById('checkbox1').parentNode;
   const isCheckboxValid = document.getElementById('checkbox1').checked;
   // Si la case n'est pas cochée, affiche un message d'erreur.
-  if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation")) isFormValid = false;
+  if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
   console.log("Validation conditions générales:", isCheckboxValid);
 
   // Soumet le formulaire si toutes les validations sont réussies.

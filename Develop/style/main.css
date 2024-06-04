@@ -121,8 +121,8 @@ footer {
   display: none;
 }
 
-/** Media Queries pour formats Mobiles **/
-@media screen and (max-width: 1147px) {
+/** Media Queries **/
+@media screen and (max-width: 1024px) {
   .logo {
     width: 250px;
     height: 40px;
@@ -145,7 +145,7 @@ footer {
     position: relative;
   }
   /** Paramètres pour l'icône **/
-  .topnav.responsive .icon {
+  .topnav.responsive a.icon {
     position: absolute;
     right: 0;
     top: 0;
@@ -155,9 +155,10 @@ footer {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 15px;
     padding: 5px;
-    margin-top: 5%;
-    margin-right: 4%;
+    margin-right: 50px;
+    margin-top: 60px;
   }
+
   /** Paramètres pour les items du menu **/
   .topnav.responsive .main-navbar a {
     float: none;
@@ -182,9 +183,13 @@ footer {
     font-size: 1rem;
     margin: 0;
   }
+  .topnav.responsive .main-navbar {
+    margin-right: 40px;
+    margin-top: 40px;
+  }
 }
 /********************* PAGE ACCUEIL *********************/
-/** Visuel ou Conteneur principal **/
+/** Visuel central ou Conteneur principal **/
 .hero-section {
   min-height: 93vh;
   border-radius: 10px;
@@ -342,7 +347,7 @@ footer {
 }
 /** Aspect globale de la Modale **/
 .content {
-  margin: 3% auto;
+  margin: 1% auto;
   width: 100%;
   max-width: 500px;
   background: #232323;
@@ -350,9 +355,7 @@ footer {
   overflow: hidden;
   position: relative;
   color: #fff;
-  padding-top: 10px;
-  animation-name: modalopen;
-  animation-duration: var(--modal-duration);
+  animation: modalopen var(--modal-duration) ease-in-out;
 }
 @media screen and (max-width: 524px) {
   .content {
@@ -405,10 +408,7 @@ footer {
 .close::after {
   transform: rotate(-45deg);
 }
-/** Pour la fonction de fermeture de la modale définie dans fichier script.js **/
-.hidden {
-  display: none;
-}
+
 /** Interieur de la modale **/
 .modal-body {
   padding: 15px 8%;
@@ -418,12 +418,13 @@ footer {
 label,
 .label {
   font-family: var(--font-base);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: normal;
   display: inline-block;
-  margin-bottom: 11px;
-  margin-top: 11px;
+  margin-bottom: 9px;
+  margin-top: 9px;
 }
+
 /** Champs **/
 input {
   border: 0.8px solid #ccc;
@@ -435,33 +436,22 @@ input {
   padding: 8px;
   width: 100%;
   border-radius: 8px;
-  font-size: 20px;
-  height: 48px;
+  font-size: 18px;
+  height: 40px;
 }
 /** interieur des boutons radio et checkboxes invisibles au départ **/
 .checkbox-input {
   display: none;
 }
-/** Position des Labels **/
+/** Position des Labels des boutons radio **/
 .checkbox-label,
 .checkbox2-label {
   position: relative;
-  margin-left: 36px;
+  margin-left: 32px;
   font-size: 12px;
   font-weight: normal;
 }
-@media screen and (max-width: 446px) {
-  .checkbox-label,
-  .checkbox2-label {
-    margin-left: 30px;
-  }
-}
-@media screen and (max-width: 417px) {
-  .checkbox-label,
-  .checkbox2-label {
-    margin-left: 28px;
-  }
-}
+
 /** aspect et position des boutons radios et checkboxes **/
 .checkbox-label .checkbox-icon,
 .checkbox2-label .checkbox-icon {
@@ -470,13 +460,13 @@ input {
   height: 20px;
   border: 2px solid #279e7a;
   border-radius: 50%;
-  text-indent: 29px;
   white-space: nowrap;
   position: absolute;
   left: -30px;
-  top: -1px;
+  top: -2px;
   transition: 0.3s;
 }
+
 /** Aspect interieur de base des boutons radios et checkboxes **/
 .checkbox-label .checkbox-icon::after,
 .checkbox2-label .checkbox-icon::after {
@@ -579,18 +569,29 @@ input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 250px;
-  padding: 180px 40px 40px 40px;
+  gap: 200px;
+  padding: 150px 40px 0 40px;
   width: 100%;
   height: 95%;
   background: #232323;
   font-size: 2.5rem;
   text-align: center;
   color: #fff;
-  margin: 3% auto;
   max-width: 500px;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
-  animation: modalopen 0.8s ease-in-out;
+  animation: modalopen var(--modal-duration) ease-in-out;
+}
+@media screen and (max-width: 524px) {
+  .modal_content {
+    font-size: 2rem;
+    margin-top: 25%;
+    margin-bottom: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-width: 100%;
+  }
 }

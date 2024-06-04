@@ -25,14 +25,12 @@
       </div>
       <!-- ITEMS -->
       <div class="main-navbar">
-        <a href="#" class="active"><span>Accueil</span></a>
         <a href="#"><span>Détails de l'évènement</span></a>
         <a href="#"><span>À propos</span></a>
         <a href="#"><span>Contact</span></a>
         <a href="#"><span>Évènements passés</span></a>
-        <!-- Icône Burger lorsqu'on est sur écrans mobiles /"javascript:void(0);" signifie que le lien ne mène nulle part / onclick="editNav()" signifie qu'au clic on appelle la fonction editNav du fichier modal.js-->
-        <a href="javascript:void(0);" class="icon" onclick="editNav()">
-          <!-- Icône Burger -->
+        <!-- Icône Burger -->
+        <a href="#" class="icon">
           <i class="fa fa-bars"></i>
         </a>
       </div>
@@ -113,17 +111,20 @@
                   >À combien de tournois GameOn avez-vous déjà participé
                   ?</label
                 ><br />
+                <!-- min="0" pour pas aller dans les valeurs négatives et step="1" limite les entrées aux entiers-->
                 <input
                   type="number"
                   class="text-control"
                   id="quantity"
                   name="quantity"
+                  min="0"
+                  step="1"
                 />
               </div>
               <div class="formData">
-                <p class="label">
+                <span class="label">
                   À quel tournoi souhaitez-vous participer cette année ?
-                </p>
+                </span>
                 <!-- BOUTONS RADIO -->
                 <input
                   class="checkbox-input"
@@ -210,6 +211,7 @@
     </main>
     <div class="modal_success">
       <div class="modal_content">
+        <span class="close"></span>
         <span>Merci pour votre inscription</span>
         <button class="btn-submit" type="button" aria-label="close modal">
           Fermer

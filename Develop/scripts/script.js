@@ -1,4 +1,13 @@
-// Fonction pour écrans au-dessous de 768px - Elle fait apparaître le menu quand on clique sur l'icône burger.
+
+// "DOMContentLoaded", code à exécuter une fois que le DOM est entièrement chargé et prêt à être manipulé, ce qui permet d'exécuter du code JavaScript au bon moment pour une meilleure expérience utilisateur.
+document.addEventListener("DOMContentLoaded", function() {
+  // Sélection de l'élément avec la classe 'icon'.
+  let icon = document.querySelector(".topnav .icon");
+
+  // Ajout d'un écouteur d'événement pour le clic.
+  icon.addEventListener("click", editNav);
+});
+// Fonction qui fait apparaître le menu quand on clique sur l'icône burger.
 function editNav() {
     // On récupère l'élément sur lequel on veut agir grâce à son Id.
     let navbar = document.getElementById("myTopnav");
