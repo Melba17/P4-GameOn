@@ -1,11 +1,17 @@
 // VARIABLES POUR LA MODALE
 // Sélection du fond sur lequel s'affiche la Modale.
 const modalbg = document.querySelector(".bground");
-const modalSuccess = document.querySelector(".modal_success");
+
 // Sélection des boutons pour ouvrir la modale.
 const modalBtn = document.querySelectorAll(".modal-btn");
+
 // Sélection de l'élément de fermeture de la Modale, ici, la croix.
 const closeBtn = document.querySelector(".close");
+
+// Sélection de la modale de validation du formulaire.
+const modalSuccess = document.querySelector(".modal_success");
+
+// Sélection du bouton de fermeture de la modale de validation du formulaire.
 const closeSuccessBtn = document.querySelector(".modal_success .close");
 
 // FONCTION POUR OUVRIR LA MODALE 
@@ -13,30 +19,31 @@ const closeSuccessBtn = document.querySelector(".modal_success .close");
 function launchModal() {
   modalbg.style.display = "block";
 }
-// FONCTION POUR FERMER LA MODALE
+// FONCTION POUR FERMER LA MODALE À L'AIDE DU BOUTON.
 function closeModal() {
   modalbg.style.display = "none";
 }
-// FONCTION POUR FERMER LA MODALE DE SUCCÈS
+// FONCTION POUR FERMER LA MODALE DE SUCCÈS À L'AIDE DU BOUTON.
 function closeSuccessModal() {
   modalSuccess.style.display = "none";
 }
 // GESTIONNAIRES D'ÉVÈNEMENTS
-// Ajout de l'événement click aux boutons
+// Ajout de l'événement click aux boutons.
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-// Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix.
+// Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix de la modale.
 closeBtn.addEventListener("click", closeModal);
+// Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix de la modale de succès de validation.
 closeSuccessBtn.addEventListener("click", closeSuccessModal);
 
 // FORMULAIRE
-// Sélectionne le formulaire ayant l'attribut name="reserve".
+// Sélectionne le formulaire ayant l'attribut name="reserve" donc l'ensemble de celui-ci.
 const form = document.querySelector('form[name="reserve"]');
 console.log("Formulaire sélectionné:", form);
-// Sélectionne tous les éléments avec la classe "formData".
+// Sélectionne tous les éléments avec la classe "formData" du formulaire.
 const formData = document.querySelectorAll(".formData");
 console.log("Champs du formulaire sélectionnés:", formData);
 
-// Fonction de validation pour chaque champ
+// FONCTION DE VALIDATION POUR CHAQUE CHAMP
 // La fonction validateField prend trois arguments : 
 // - field : l'élément à valider
 // - condition : une condition booléenne
@@ -57,7 +64,8 @@ function validateField(field, condition, errorMessage) {
     return true;
   }
 }
-// validateForm : Cette fonction empêche la soumission par défaut du formulaire, puis valide chaque champ :
+// FONCTION DE VALIDATION DU FORMULAIRE
+// validateForm : Cette fonction empêche la soumission par défaut du formulaire, puis valide chaque champ.
 // Prénom : Vérifie que le champ a au moins 2 caractères et n'est pas vide.
 // Nom : Vérifie que le champ a au moins 2 caractères et n'est pas vide.
 // Email : Vérifie que l'email est dans un format valide.
@@ -71,8 +79,9 @@ function validateForm(event) {
   console.log("Validation du formulaire commencée"); 
   // Initialise une variable isFormValid à true. Elle sera utilisée pour vérifier si le formulaire est valide.
   let isFormValid = true;
-   // Sélectionne le parent de l'élément avec l'id 'first'.
-  // Ici, Valide le champ Prénom.
+
+  // VALIDATION DU PRÉNOM
+  // Sélectionne le parent de l'élément avec l'id 'first'.
   const firstNameField = document.getElementById('first').parentNode;
   // Valide le champ "Prénom". Si la longueur de la valeur de l'élément avec l'id 'first' est inférieure à 2, affiche un message d'erreur.
   const isFirstNameValid = validateField(
@@ -85,10 +94,9 @@ function validateForm(event) {
   console.log("Validation prénom:", isFirstNameValid);
 
 
+  // VALIDATION DU NOM
   // Sélectionne le parent de l'élément avec l'id 'last'.
-  // Ici, Valide le champ Nom.
   const lastNameField = document.getElementById('last').parentNode;
-  // Valide le champ Nom.
   // Valide le champ "Nom". Si la longueur de la valeur de l'élément avec l'id 'last' est inférieure à 2, affiche un message d'erreur.
   const isLastNameValid = validateField(
     lastNameField,
@@ -99,9 +107,8 @@ function validateForm(event) {
   if (!isLastNameValid) isFormValid = false;
   console.log("Validation nom:", isLastNameValid);
 
-  // Valide le champ Email.
+  // VALIDATION DE L'EMAIL
   // Sélectionne le parent de l'élément avec l'id 'email'.
-  // Ici, Valide le champ Email.
   const emailField = document.getElementById('email').parentNode;
   const email = document.getElementById('email').value.trim();
   // Valide le champ "Email". Si l'email n'est pas valide, affiche un message d'erreur.
@@ -116,7 +123,8 @@ function validateForm(event) {
   console.log("Validation email:", isEmailValid);
 
 
-  // Valide le champ "Date de naissance". Si l'âge calculé est en dehors de l'intervalle 18-100, affiche un message d'erreur.
+  // VALIDATION DATE DE NAISSANCE
+  // Si l'âge calculé est en dehors de l'intervalle 18-100, affiche un message d'erreur.
   const birthdateField = document.getElementById('birthdate').parentNode;
   const birthdate = new Date(document.getElementById('birthdate').value);
   const age = new Date().getFullYear() - birthdate.getFullYear();
@@ -130,7 +138,7 @@ function validateForm(event) {
   console.log("Validation date de naissance:", isBirthdateValid, "Âge:", age);
 
 
-  // Valide le champ Nombre de tournois.
+  // VALIDATION DU NOMBRE DE TOURNOIS
   // Si la valeur n'est pas un nombre ou est vide, affiche un message d'erreur.
   const quantityField = document.getElementById('quantity').parentNode;
   const quantityValue = document.getElementById('quantity').value.trim();
@@ -141,20 +149,18 @@ function validateForm(event) {
   );
 // Ajout d'un écouteur d'événement input pour le champ de quantité pour forcer la valeur à 0 si une valeur négative est saisie.
   const quantityInput = document.getElementById('quantity');
-
   quantityInput.addEventListener('input', function() {
   if (quantityInput.value < 0) {
     quantityInput.value = 0;
   }
   });
-
   // Si la quantité n'est pas valide, isFormValid est mis à false.
   if (!isQuantityValid) isFormValid = false;
   console.log("Validation quantité:", isQuantityValid);
 
 
 
-   // Valide le champ Tournoi.
+   // VALIDATION LORSQU'UNE VILLE EST SÉLECTIONNÉE
    const locationFields = document.querySelectorAll('input[name="location"]');
    let isLocationValid = false;
    locationFields.forEach(field => {
@@ -172,17 +178,16 @@ function validateForm(event) {
      // Trouve le conteneur du champ "Location".
      currentElement = currentElement.parentNode;
    }
-   // Valide le champ "Location". Si aucune ville n'est sélectionnée, affiche un message d'erreur.
+   // Valide le champ "Location". Si aucune ville n'est pas sélectionnée, affiche un message d'erreur.
    if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
 
 
-  // Valide la checkbox des conditions générales
+  // VALIDATION CONDITIONS D'UTILISATION
   const checkboxField = document.getElementById('checkbox1').parentNode;
   const isCheckboxValid = document.getElementById('checkbox1').checked;
   // Si la case n'est pas cochée, affiche un message d'erreur.
   if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
   console.log("Validation conditions générales:", isCheckboxValid);
-
   // Soumet le formulaire si toutes les validations sont réussies.
   if (isFormValid) {
     showSuccessModal(); 
@@ -191,6 +196,7 @@ function validateForm(event) {
   console.log("Formulaire valide:", isFormValid);
 }
 
+// SUCCESS MODALE
 // showSuccessModal() : Cette fonction est appelée lorsque le formulaire est valide. Elle sélectionne la fenêtre modale de succès à l'aide de document.querySelector, puis définit son style display à 'flex' pour l'afficher. Ensuite, elle imprime un message dans la console pour indiquer que la fenêtre modale de succès est affichée.
 function showSuccessModal() {
   // Fonction de réinitialisation du formulaire (prédéfini plus bas).
@@ -204,26 +210,24 @@ function showSuccessModal() {
   successModal.style.display = 'flex';
   console.log("Fenêtre modale de succès affichée");
 }
-
 // hideSuccessModal() : Cette fonction est appelée lorsque le bouton "Fermer" dans la fenêtre modale de succès est cliqué. Elle sélectionne à nouveau la fenêtre modale de succès, puis définit son style display à 'none' pour la masquer. Ensuite, elle imprime un message dans la console pour indiquer que la fenêtre modale de succès est masquée.
 function hideSuccessModal() {
   const successModal = document.querySelector('.modal_success');
   successModal.style.display = 'none';
   console.log("Fenêtre modale de succès masquée");
 }
-// Ajoute un écouteur d'événement (gestionnaire d'événement) pour la soumission du formulaire qui appelle la fonction validateForm.
+// Ajout d'un écouteur d'événement (gestionnaire d'événement) pour la soumission du formulaire qui appelle la fonction validateForm.
 form.addEventListener('submit', validateForm);
 console.log("Écouteur de soumission de formulaire ajouté");
-
 // closeModalButton.addEventListener('click', hideSuccessModal) : Cet événement écoute les clics sur le bouton "Fermer" de la fenêtre modale de succès. Lorsque le bouton est cliqué, la fonction hideSuccessModal() est appelée pour masquer la fenêtre modale.
 const closeModalButton = document.querySelector('.modal_success .btn-submit');
     closeModalButton.addEventListener('click', hideSuccessModal);
     console.log("Écouteur de clic sur le bouton de fermeture de la modale ajouté");
 
-// Avec ces différentes fonctions, lorsqu'on clique sur le bouton "C'est parti", chaque champ sera soit validé soit un message d'erreur approprié sera affiché sous le champ concerné si les critères ne sont pas respectés.
+// Avec ces différentes fonctions, lorsqu'on clique sur le bouton "C'est parti !", chaque champ sera soit validé, soit un message d'erreur approprié sera affiché sous le champ concerné si les critères ne sont pas respectés.
 // Avec l'ajout des concole.log à chaque étape clé du processus de validation, un message s'affichera dans la console, ce qui vous aide à comprendre comment et quand chaque partie du code est exécutée.
 
-// Remise à zéro du formulaire lors de la soumission réussie.
+// REMISE À ZÉRO DU FORMULAIRE LORSQUE VALIADTION RÉUSSIE
 function resetForm() {
   document.getElementById('first').value = '';
   document.getElementById('last').value = '';

@@ -184,7 +184,7 @@ footer {
     display: inline-block;
     width: 100%;
   }
-
+  /** Permet à JS d'afficher le menu lorsque nécessaire **/
   .menu_toggle {
     visibility: visible;
     opacity: 1;

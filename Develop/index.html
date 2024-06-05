@@ -61,14 +61,18 @@
             réservations... Places limitées !
           </p>
           <!-- 1er bouton -->
-          <button class="btn-signup modal-btn">je m'inscris</button>
+          <button class="btn-signup modal-btn" aria-label="bouton d'ouverture">
+            je m'inscris
+          </button>
         </div>
         <!-- Partie de droite -->
         <div class="hero-img">
-          <img src="images/bg_img.jpg" alt="img" />
+          <img src="images/bg_img.jpg" alt="image" />
         </div>
         <!-- 2ème bouton qui n'apparaît qu'au-dessous de 990px -->
-        <button class="btn-signup modal-btn">je m'inscris</button>
+        <button class="btn-signup modal-btn" aria-label="bouton d'ouverture">
+          je m'inscris
+        </button>
       </div>
       <!-- MODALE -->
       <div class="bground">
@@ -214,7 +218,7 @@
                 <br />
               </div>
               <!-- BOUTON D'ENVOI -->
-              <input class="btn-submit" type="submit" value="C'est parti" />
+              <button class="btn-submit" type="submit">C'est parti !</button>
             </form>
           </div>
         </div>
@@ -224,7 +228,11 @@
       <div class="modal_content">
         <span class="close"></span>
         <span>Merci pour votre inscription</span>
-        <button class="btn-submit" type="button" aria-label="close modal">
+        <button
+          class="btn-submit"
+          type="button"
+          aria-label="bouton de fermeture"
+        >
           Fermer
         </button>
       </div>
@@ -233,8 +241,8 @@
     <footer>
       <p class="copyrights">Copyright 2014 - 2022, GameOn Inc.</p>
     </footer>
-    <!-- Fichier Javascript placés ici pour laisser le temps au navigateur de charger la page -->
+    <!-- Fichiers Javascript placés ici pour laisser le temps au navigateur de charger la page -->
+    <script src="scripts/success.js"></script>
     <script src="scripts/modal.js"></script>
-    <script src="scripts/script.js"></script>
   </body>
 </html>
