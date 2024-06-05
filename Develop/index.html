@@ -5,6 +5,7 @@
     <title>Reservation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/main.css" />
+    <link rel="icon" type="image/svg+xml" href="images/icons8-pacman-50.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -18,23 +19,33 @@
   </head>
   <body>
     <!-- ENTÊTE -->
-    <div class="topnav" id="myTopnav">
+    <header class="topnav" id="myTopnav">
       <!-- LOGO -->
       <div class="header-logo">
-        <img alt="logo" src="images/Logo.png" class="logo" />
+        <img alt="logo GameOn" src="images/Logo.png" class="logo" />
       </div>
       <!-- ITEMS -->
-      <div class="main-navbar">
-        <a href="#"><span>Détails de l'évènement</span></a>
-        <a href="#"><span>À propos</span></a>
-        <a href="#"><span>Contact</span></a>
-        <a href="#"><span>Évènements passés</span></a>
-        <!-- Icône Burger -->
-        <a href="#" class="icon">
-          <i class="fa fa-bars"></i>
-        </a>
-      </div>
-    </div>
+      <nav>
+        <ul class="list">
+          <li class="list_item">
+            <a href="#"><span>Détails de l'évènement</span></a>
+          </li>
+          <li class="list_item">
+            <a href="#"><span>À propos</span></a>
+          </li>
+          <li class="list_item">
+            <a href="#"><span>Contact</span></a>
+          </li>
+          <li class="list_item">
+            <a href="#"><span>Évènements passés</span></a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Icône Burger -->
+      <button type="button" aria-label="bouton menu" id="btn_hamb">
+        <i class="fa fa-bars"></i>
+      </button>
+    </header>
     <!-- La balise <main> contient la Page d'Accueil et la Modale -->
     <main>
       <!-- PAGE ACCUEIL -->
