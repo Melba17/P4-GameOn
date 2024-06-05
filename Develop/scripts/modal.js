@@ -1,4 +1,4 @@
-// VARIABLES POUR LA MODALE
+// VARIABLES POUR LA MODALE ET LA SUCCESS MODALE
 // Sélection du fond sur lequel s'affiche la Modale.
 const modalbg = document.querySelector(".bground");
 
