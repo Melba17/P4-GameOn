@@ -1,4 +1,4 @@
-// ICÔNE BURGER/MENU
+///////////// ICÔNE BURGER/MENU //////////////////
 // Sélection de l'icône du menu. Variable en dehors de la fonction car reste accessible dans tout le script (ou dans tout le bloc de portée dans lequel elle est définie). On peut donc la réutiliser sans avoir à la redéfinir. Elle reste également une référence statique à un élément spécifique du DOM et donc n'a pas besoin d'être recalculée chaque fois que la fonction est exécutée.
 const menuIcon = document.getElementById("btn_hamb");
 

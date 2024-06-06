@@ -1,50 +1,41 @@
-// VARIABLES POUR LA MODALE ET LA SUCCESS MODALE
-// Sélection du fond sur lequel s'affiche la Modale.
-const modalbg = document.querySelector(".bground");
-
-// Sélection des boutons pour ouvrir la modale.
+/////////// POUR OUVRIR LA MODALE AVEC LES BOUTONS. /////////////////
+// Variable qui sélectionne tous les boutons existants pour ouvrir la modale.
 const modalBtn = document.querySelectorAll(".modal-btn");
+modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// Sélection de l'élément de fermeture de la Modale, ici, la croix.
-const closeBtn = document.querySelector(".close");
-
-// Sélection de la modale de validation du formulaire.
-const modalSuccess = document.querySelector(".modal_success");
-
-// Sélection du bouton de fermeture de la modale de validation du formulaire.
-const closeSuccessBtn = document.querySelector(".modal_success .close");
-
-// FONCTION POUR OUVRIR LA MODALE 
-// Fonction pour lancer la modale. Elle s'ouvre au clic parce que la fonction launchModal() est attachée à l'événement click du bouton via un gestionnaire d'événements. Lorsque le bouton avec la classe modal-btn est cliqué, l'événement click est déclenché. Comme la fonction launchModal a été assignée comme gestionnaire de cet événement, elle est automatiquement appelée.
+// Fonction pour ouvrir la modale.
 function launchModal() {
+  // Sélection de l'ensemble du bloc qui contient la modale.
+  const modalbg = document.querySelector(".bground"); 
   modalbg.style.display = "block";
 }
-// FONCTION POUR FERMER LA MODALE À L'AIDE DU BOUTON.
+////////////// POUR FERMER LA MODALE AVEC LA CROIX. ////////////////////
+// Variable qui sélectionne l'élément de fermeture de la Modale, ici, la croix.
+const closeBtn = document.querySelector(".close");
+// Fonction pour fermer la modale avec la croix.
 function closeModal() {
+  // Sélection du fond sur lequel s'affiche la Modale.
+  const modalbg = document.querySelector(".bground"); 
   modalbg.style.display = "none";
 }
-// FONCTION POUR FERMER LA MODALE DE SUCCÈS À L'AIDE DU BOUTON.
-function closeSuccessModal() {
-  modalSuccess.style.display = "none";
-}
-// GESTIONNAIRES D'ÉVÈNEMENTS
-// Ajout de l'événement click aux boutons.
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-// Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix de la modale.
+// Ajout du gestionnaire d'événements pour fermer la modale.
 closeBtn.addEventListener("click", closeModal);
-// Ajout d'un gestionnaire d'événements pour écouter le clic sur la croix de la modale de succès de validation.
-closeSuccessBtn.addEventListener("click", closeSuccessModal);
 
-// FORMULAIRE
-// Sélectionne le formulaire ayant l'attribut name="reserve" donc l'ensemble de celui-ci.
+
+
+
+/////////////////////// FORMULAIRE ///////////////////////////
+// Sélectionne l'ensemble du formulaire pour gérer la soumission de celui-ci en fin de code.
 const form = document.querySelector('form[name="reserve"]');
 console.log("Formulaire sélectionné:", form);
-// Sélectionne tous les éléments avec la classe "formData" du formulaire.
+
+////// MÉTHODE SPÉCIFIQUE POUR LES MESSAGES D'ERREUR ///////
+// Sélection tous les éléments avec la classe "formData" du formulaire pour leur appliquer le style prédéfini dans le fichier CSS.
 const formData = document.querySelectorAll(".formData");
 console.log("Champs du formulaire sélectionnés:", formData);
 
 // FONCTION DE VALIDATION POUR CHAQUE CHAMP
-// La fonction validateField prend trois arguments : 
+// La fonction validateField (appelée à plusieurs reprises dans la fonction "validateField") prend trois arguments : 
 // - field : l'élément à valider
 // - condition : une condition booléenne
 // - errorMessage : le message d'erreur à afficher si la condition est fausse
@@ -64,20 +55,13 @@ function validateField(field, condition, errorMessage) {
     return true;
   }
 }
-// FONCTION DE VALIDATION DU FORMULAIRE
+////////////////// FONCTION DE VALIDATION DU FORMULAIRE ///////////////////
 // validateForm : Cette fonction empêche la soumission par défaut du formulaire, puis valide chaque champ.
-// Prénom : Vérifie que le champ a au moins 2 caractères et n'est pas vide.
-// Nom : Vérifie que le champ a au moins 2 caractères et n'est pas vide.
-// Email : Vérifie que l'email est dans un format valide.
-// Date de naissance : Vérifie que l'âge est entre 18 et 100 ans.
-// Nombre de tournois : Vérifie que la valeur est un nombre et n'est pas vide.
-// Tournoi : Vérifie qu'une option est sélectionnée.
-// Conditions générales : Vérifie que la checkbox est cochée.
 function validateForm(event) {
-  // Empêche la soumission du formulaire jusqu'à ce que tous les champs soient validés.
+  // Empêche le navigateur de réagir à la validation du formulaire,ici, je gère moi-même le comportement de mon formulaire.
   event.preventDefault()
   console.log("Validation du formulaire commencée"); 
-  // Initialise une variable isFormValid à true. Elle sera utilisée pour vérifier si le formulaire est valide.
+  // Initialise une variable isFormValid à true. Elle sera utilisée pour vérifier si le formulaire est valide à la fin du code du formulaire.
   let isFormValid = true;
 
   // VALIDATION DU PRÉNOM
@@ -188,46 +172,42 @@ function validateForm(event) {
   // Si la case n'est pas cochée, affiche un message d'erreur.
   if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
   console.log("Validation conditions générales:", isCheckboxValid);
-  // Soumet le formulaire si toutes les validations sont réussies.
+
+  
+  //// Soumet le formulaire si toutes les validations sont réussies et ouvre la SuccessModale en appelant la fonction "showSuccessModal()". ////
   if (isFormValid) {
     showSuccessModal(); 
   }
-  // Cela permet de voir le résultat de la validation dans la console juste avant la soumission du formulaire.
   console.log("Formulaire valide:", isFormValid);
 }
 
-// SUCCESS MODALE
-// showSuccessModal() : Cette fonction est appelée lorsque le formulaire est valide. Elle sélectionne la fenêtre modale de succès à l'aide de document.querySelector, puis définit son style display à 'flex' pour l'afficher. Ensuite, elle imprime un message dans la console pour indiquer que la fenêtre modale de succès est affichée.
-function showSuccessModal() {
-  // Fonction de réinitialisation du formulaire (prédéfini plus bas).
-  resetForm();
-  // Sélectionne la modale principale
-  const mainModal = document.querySelector('.bground');
-  // Masque la modale principale
-  mainModal.style.display = 'none';
-
-  const successModal = document.querySelector('.modal_success');
-  successModal.style.display = 'flex';
-  console.log("Fenêtre modale de succès affichée");
-}
-// hideSuccessModal() : Cette fonction est appelée lorsque le bouton "Fermer" dans la fenêtre modale de succès est cliqué. Elle sélectionne à nouveau la fenêtre modale de succès, puis définit son style display à 'none' pour la masquer. Ensuite, elle imprime un message dans la console pour indiquer que la fenêtre modale de succès est masquée.
-function hideSuccessModal() {
-  const successModal = document.querySelector('.modal_success');
-  successModal.style.display = 'none';
-  console.log("Fenêtre modale de succès masquée");
-}
-// Ajout d'un écouteur d'événement (gestionnaire d'événement) pour la soumission du formulaire qui appelle la fonction validateForm.
+////// On appelle la variable "form" (définit en début de code) à laquelle on ajoute un écouteur d'événement pour le bouton "c'est parti !" (avec l'attribut "submit") qui appelle la fonction validateForm (la plus grosse fonction) lorsque celui-ci est correctement rempli. /////////
 form.addEventListener('submit', validateForm);
 console.log("Écouteur de soumission de formulaire ajouté");
-// closeModalButton.addEventListener('click', hideSuccessModal) : Cet événement écoute les clics sur le bouton "Fermer" de la fenêtre modale de succès. Lorsque le bouton est cliqué, la fonction hideSuccessModal() est appelée pour masquer la fenêtre modale.
-const closeModalButton = document.querySelector('.modal_success .btn-submit');
-    closeModalButton.addEventListener('click', hideSuccessModal);
-    console.log("Écouteur de clic sur le bouton de fermeture de la modale ajouté");
 
-// Avec ces différentes fonctions, lorsqu'on clique sur le bouton "C'est parti !", chaque champ sera soit validé, soit un message d'erreur approprié sera affiché sous le champ concerné si les critères ne sont pas respectés.
-// Avec l'ajout des concole.log à chaque étape clé du processus de validation, un message s'affichera dans la console, ce qui vous aide à comprendre comment et quand chaque partie du code est exécutée.
 
-// REMISE À ZÉRO DU FORMULAIRE LORSQUE VALIADTION RÉUSSIE
+
+
+/////////////////////// SUCCESS MODALE /////////////////////////
+// Variable qui récupère le bloc contenant la SuccessModale.
+const successModal = document.querySelector('.modal_success');
+
+// POUR OUVERTURE
+// Cette fonction est appelée lorsque le formulaire est valide. 
+function showSuccessModal() {
+  // Fonction de réinitialisation du formulaire (prédéfini au-dessous).
+  resetForm();
+  // Sélectionne la modale principale...
+  const mainModal = document.querySelector('.bground');
+  // ...pour la rendre invisible.
+  mainModal.style.display = 'none';
+  // Sélection du bloc qui contient la SuccessModale...
+  successModal.style.display = 'flex';
+  // ... pour la rendre visible
+  console.log("Fenêtre modale de succès affichée");
+}
+
+// REMISE À ZÉRO DU FORMULAIRE LORSQUE VALIDATION RÉUSSIE
 function resetForm() {
   document.getElementById('first').value = '';
   document.getElementById('last').value = '';
@@ -237,5 +217,30 @@ function resetForm() {
   document.querySelectorAll('input[name="location"]').forEach(input => input.checked = false);
   document.getElementById('checkbox1').checked = false;
 }
+
+// POUR FERMETURE AVEC LE BOUTON
+// Variable qui sélectionne le bouton de fermeture de la SuccessModale.
+const closeModalButton = document.querySelector('.modal_success .btn-submit');
+// Fonction qui décrit comment fermer la SuccessModale.
+function hideSuccessModal() {
+  // La SuccesModale devient invisible.
+  successModal.style.display = 'none';
+  console.log("Fenêtre modale de succès masquée");
+}
+closeModalButton.addEventListener('click', hideSuccessModal);
+console.log("Écouteur de clic sur le bouton de fermeture de la modale ajouté");
+
+// POUR FERMETURE AVEC LA CROIX
+// Sélection de la croix de fermeture de la SuccessModale.
+const closeSuccessX = document.querySelector(".modal_success .close")
+// FONCTION POUR FERMER LA MODALE DE SUCCÈS À L'AIDE DU BOUTON.
+closeSuccessX.addEventListener("click", hideSuccessModal);
+
+
+
+
+////// Avec l'ajout des concole.log à chaque étape clé du processus de validation, un message s'affichera dans la console qui aide à comprendre comment et quand chaque partie du code est exécutée. ////////
+
+
 
 
