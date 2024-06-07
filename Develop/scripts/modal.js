@@ -1,6 +1,7 @@
 /////////// POUR OUVRIR LA MODALE AVEC LES BOUTONS. /////////////////
 // Variable qui sélectionne tous les boutons existants pour ouvrir la modale.
 const modalBtn = document.querySelectorAll(".modal-btn");
+// On reprend la variable des boutons à laquelle on applique la méthode "forEach" qui va parcourir la liste des boutons auxquels est ajouté un écouteur d'événement qui déclenche la fonction launchModal lorsque l'élément est cliqué.
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // Fonction pour ouvrir la modale.
@@ -34,144 +35,154 @@ console.log("Formulaire sélectionné:", form);
 const formData = document.querySelectorAll(".formData");
 console.log("Champs du formulaire sélectionnés:", formData);
 
-// FONCTION DE VALIDATION POUR CHAQUE CHAMP
+// FONCTION DE VALIDATION DE L'ENSEMBLE DU FORMULAIRE
 // La fonction validateField (appelée à plusieurs reprises dans la fonction "validateField") prend trois arguments : 
-// - field : l'élément à valider
+// - field : l'élément à valider dans un bloc parent
 // - condition : une condition booléenne
 // - errorMessage : le message d'erreur à afficher si la condition est fausse
-// Si la condition est fausse, elle ajoute les attributs data-error et data-error-visible à l'élément field et renvoie false.
-// Si la condition est vraie, elle supprime les attributs data-error et data-error-visible de l'élément field et renvoie true.
+// En bref, cette fonction détermine si le formulaire complet est valide et s'il peut être soumis ou non. 
 function validateField(field, condition, errorMessage) {
-  console.log("Validation du champ:", field, "Condition:", condition);
+  // Si la condition est fausse, elle ajoute les attributs data-error et data-error-visible à l'élément "field" en question et renvoie false, ce qui est visible dans le DOM et déclenche également le CSS qui y est rattaché.
   if (!condition) {
     field.setAttribute('data-error', errorMessage);
     field.setAttribute('data-error-visible', 'true');
-    console.log("Erreur ajoutée:", errorMessage);
     return false;
-  } else {
+  } // Si la condition est vraie, elle supprime les attributs data-error et data-error-visible de l'élément field et renvoie true.
+    else {
     field.removeAttribute('data-error');
     field.removeAttribute('data-error-visible');
-    console.log("Champ validé:", field);
     return true;
   }
 }
-////////////////// FONCTION DE VALIDATION DU FORMULAIRE ///////////////////
-// validateForm : Cette fonction empêche la soumission par défaut du formulaire, puis valide chaque champ.
+////////////////// FONCTION DE VALIDATION DU FORMULAIRE CHAMP PAR CHAMP ///////////////////
 function validateForm(event) {
-  // Empêche le navigateur de réagir à la validation du formulaire,ici, je gère moi-même le comportement de mon formulaire.
+  // Empêche le navigateur de réagir à la validation du formulaire (bouton "C'est parti !"),ici, je gère moi-même le comportement du formulaire.
   event.preventDefault()
-  console.log("Validation du formulaire commencée"); 
   // Initialise une variable isFormValid à true. Elle sera utilisée pour vérifier si le formulaire est valide à la fin du code du formulaire.
   let isFormValid = true;
 
-  // VALIDATION DU PRÉNOM
-  // Sélectionne le parent de l'élément avec l'id 'first'.
-  const firstNameField = document.getElementById('first').parentNode;
-  // Valide le champ "Prénom". Si la longueur de la valeur de l'élément avec l'id 'first' est inférieure à 2, affiche un message d'erreur.
-  const isFirstNameValid = validateField(
-    firstNameField,
-    document.getElementById('first').value.trim().length >= 2,
-    "Le champ ne doit pas être vide et avoir au moins 2 caractères."
+  // VALIDATION DES CHAMPS NOM ET PRÉNOM
+  // Cette variable déclare une fonction fléchée "validateName" qui prend trois arguments : 
+  // - fieldName: l'ID du champ de saisie à valider
+  // - minLength: la longueur minimale que la valeur du champ doit avoir
+  // - errorMessage: le message d'erreur à afficher si la validation échoue
+  const validateName = (fieldName, minLength, errorMessage) => {
+    // Récupère l'élément DOM parent (.parentNode) du champ d'entrée dont l'ID est "fieldName", conteneur qui va afficher le message d'erreur.
+    const field = document.getElementById(fieldName).parentNode;
+    // Récupère la valeur du champ d'entrée, la méthode trim() supprime les espaces blancs éventuels.
+    const value = document.getElementById(fieldName).value.trim();
+    // Appelle la fonction validateField définit plus tôt qui reprend le principe des trois arguments à prendre en compte pour la validation :
+  // field = l'élément parent du champ à valider
+  // La condition de validation = la longueur de la valeur doit être supérieure ou égale à minLength ET la valeur doit contenir uniquement des lettres (expression régulière /^[a-zA-Z]+$/)
+  // errorMessage = le message d'erreur à afficher si la validation échoue
+  // ce qui donnera un résultat "true" ou "false".
+    const isValid = validateField(
+    field,
+    value.length >= minLength && /^[a-zA-Z]+$/.test(value),
+    errorMessage
   );
-  // Si le prénom n'est pas valide, isFormValid est mis à false.
-  if (!isFirstNameValid) isFormValid = false;
-  console.log("Validation prénom:", isFirstNameValid);
+    // Si isValid est false (la validation a échoué), la variable globale isFormValid est définie à false. Cela signifie que le formulaire contient au moins une erreur de validation.
+    if (!isValid) isFormValid = false;
+    // Affiche dans la console le résultat de la validation pour le champ spécifié "true" ou "false"
+    console.log(`Validation ${fieldName}:`, isValid);
+  };
+  // Appelle la fonction validateName pour valider le champ avec l'ID 'first'(Prénom) avec un minmum de 2 caractères et le messaged'erreur à afficher.
+  validateName('first', 2, "Le champ doit contenir au moins 2 lettres / les chiffres ne sont pas autorisés.");
+  // Idem mais pour l'ID 'last'(Nom).
+  validateName('last', 2, "Le champ doit contenir au moins 2 lettres / Les chiffres ne sont pas autorisés.");
 
-
-  // VALIDATION DU NOM
-  // Sélectionne le parent de l'élément avec l'id 'last'.
-  const lastNameField = document.getElementById('last').parentNode;
-  // Valide le champ "Nom". Si la longueur de la valeur de l'élément avec l'id 'last' est inférieure à 2, affiche un message d'erreur.
-  const isLastNameValid = validateField(
-    lastNameField,
-    document.getElementById('last').value.trim().length >= 2,
-    "Le champ ne doit pas être vide et avoir au moins 2 caractères."
-  );
-  // Si le nom n'est pas valide, isFormValid est mis à false.
-  if (!isLastNameValid) isFormValid = false;
-  console.log("Validation nom:", isLastNameValid);
+  ////// Les fonctions suivantes ont le même principe de base mais sont adaptées à des types de champs différents et à des critères de validation spécifiques. //////////
 
   // VALIDATION DE L'EMAIL
-  // Sélectionne le parent de l'élément avec l'id 'email'.
-  const emailField = document.getElementById('email').parentNode;
-  const email = document.getElementById('email').value.trim();
-  // Valide le champ "Email". Si l'email n'est pas valide, affiche un message d'erreur.
-  const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]+");
-  const isEmailValid = validateField(
-    emailField,
+  const validateEmail = () => {
+    const field = document.getElementById('email').parentNode;
+    const email = document.getElementById('email').value.trim();
+    // Création d'une nouvelle expression régulière (regex) pour valider le format de l'adresse email / Objet de comparaison.
+    const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]+");
+  const isValid = validateField(
+    field,
+    // Condition de validation : vérifie si l'email respecte le format défini par la regex.
     emailRegex.test(email),
     "L'adresse email n'est pas valide."
   );
-  // Si l'email n'est pas valide, isFormValid est mis à false.
-  if (!isEmailValid) isFormValid = false;
-  console.log("Validation email:", isEmailValid);
+  if (!isValid) isFormValid = false;
+  console.log("Validation email:", isValid);
+}
+// Appelle la fonction validateEmail pour valider le champ d'entrée avec l'ID 'email'.
+  validateEmail();
 
 
   // VALIDATION DATE DE NAISSANCE
-  // Si l'âge calculé est en dehors de l'intervalle 18-100, affiche un message d'erreur.
-  const birthdateField = document.getElementById('birthdate').parentNode;
-  const birthdate = new Date(document.getElementById('birthdate').value);
-  const age = new Date().getFullYear() - birthdate.getFullYear();
-  const isBirthdateValid = validateField(
-    birthdateField,
-    age >= 18 && age <= 100,
-    "Vous devez avoir au moins 18 ans / Maximum 100 ans."
-  );
-  // Si la date de naissance n'est pas valide, isFormValid est mis à false.
-  if (!isBirthdateValid) isFormValid = false;
-  console.log("Validation date de naissance:", isBirthdateValid, "Âge:", age);
+  const validateBirthdate = () => {
+    const field = document.getElementById('birthdate').parentNode;
+    // Récupère la valeur du champ d'entrée avec l'ID 'birthdate' et la convertit en objet Date. Cela permet de manipuler la date plus facilement.
+    const birthdate = new Date(document.getElementById('birthdate').value);
+    // Test de Calcul de l'âge de l'utilisateur en soustrayant l'année de naissance de l'année actuelle.
+    // new Date().getFullYear() correspond à l'année actuelle : new Date() crée un objet Date représentant la date et l'heure actuelles.
+    // getFullYear() extrait l'année complète de cet objet Date.
+    // Reprise de la variable/objet créé précédemment qui reprend la valeur saisie par l'utilisateur.
+    // La différence entre ces deux années donne l'âge de l'utilisateur.
+    const age = new Date().getFullYear() - birthdate.getFullYear();
+    const isValid = validateField(
+      field,
+       // Ici, condition de validation = l'âge doit être compris entre 18 et 100 ans.
+      age >= 18 && age <= 100,
+      "Vous devez avoir au moins 18 ans / Maximum 100 ans."
+    );
+    if (!isValid) isFormValid = false;
+    // Affiche dans la console le résultat de la validation de la date de naissance et l'âge calculé.
+    console.log("Validation date de naissance:", isValid, "Âge:", age);
+  };
+  validateBirthdate();
 
 
   // VALIDATION DU NOMBRE DE TOURNOIS
-  // Si la valeur n'est pas un nombre ou est vide, affiche un message d'erreur.
-  const quantityField = document.getElementById('quantity').parentNode;
-  const quantityValue = document.getElementById('quantity').value.trim();
-  const isQuantityValid = validateField(
-    quantityField,
-    !isNaN(quantityValue) && quantityValue !== "" && Number(quantityValue) > 0,
-    "Veuillez entrer un chiffre supérieur à zéro."
-  );
-// Ajout d'un écouteur d'événement input pour le champ de quantité pour forcer la valeur à 0 si une valeur négative est saisie.
-  const quantityInput = document.getElementById('quantity');
-  quantityInput.addEventListener('input', function() {
-  if (quantityInput.value < 0) {
-    quantityInput.value = 0;
-  }
-  });
-  // Si la quantité n'est pas valide, isFormValid est mis à false.
-  if (!isQuantityValid) isFormValid = false;
-  console.log("Validation quantité:", isQuantityValid);
-
-
+  const validateQuantity = () => {
+    const field = document.getElementById('quantity').parentNode;
+    const quantityValue = document.getElementById('quantity').value.trim();
+    //
+    const isValid = validateField(
+      field,
+      // ! = l'inverse de NaN = Not a Number / !== "" veut dire que le champ n'est pas vide donc test de validation du champ car vérifie que la valeur est un nombre, qu'elle n'est pas vide, et qu'elle est supérieure à zéro.
+      !isNaN(quantityValue) && quantityValue !== "" && Number(quantityValue) > 0,
+      "Veuillez entrer un chiffre supérieur à zéro."
+    );
+    if (!isValid) isFormValid = false;
+    console.log("Validation quantité:", isValid);
+  };
+  validateQuantity();
 
    // VALIDATION LORSQU'UNE VILLE EST SÉLECTIONNÉE
-   const locationFields = document.querySelectorAll('input[name="location"]');
-   let isLocationValid = false;
-   locationFields.forEach(field => {
-     if (field.checked) isLocationValid = true;
-   });
-   console.log("Validation ville sélectionnée:", isLocationValid);
-// Vérifie si au moins un des champs "Location" est sélectionné.
-   let locationContainer = null;
-   let currentElement = locationFields[0];
-   while (currentElement) {
-     if (currentElement.parentNode.classList.contains('formData')) {
-       locationContainer = currentElement.parentNode;
-       break;
-     }
-     // Trouve le conteneur du champ "Location".
-     currentElement = currentElement.parentNode;
-   }
-   // Valide le champ "Location". Si aucune ville n'est pas sélectionnée, affiche un message d'erreur.
-   if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
-
+   // Variable structurée un peu différemment par rapport aux autres fonctions de validation. Au lieu de vérifier directement le champ de saisie individuel, elle vérifie l'ensemble des champs de saisie de lieu (boutons radio) et fournit un message d'erreur si aucun champ n'est sélectionné. Cette approche est logique car les boutons radio n'offrent qu'un seul choix parmi plusieurs options.
+   const validateLocation = () => {
+    // Récupère la liste des éléments DOM ayant un attribut "name" égal à "location".
+    const locationFields = document.querySelectorAll('input[name="location"]');
+    // Récupère le premier élément de cette liste avec [0] / recherche l'élément parent qui a la classe CSS "formData" dans le DOM avec la méthode .closest ()
+    const locationContainer = locationFields[0].closest('.formData');
+    // L'instruction utilise la méthode Array.from() pour convertir la NodeList locationFields en un tableau ordinaire, puis utilise la méthode Array.some() pour vérifier si au moins un des champs de saisie de lieu est sélectionné.
+    // field => est une fonction fléchée qui prend l'argument", ici nommé "field" qui représente chaque élément du tableau sur lequel la méthode some() est appelée.
+    // field.checked fait référence à la propriété "checked" donc contrôle si un des boutons est bien coché.
+    const isLocationValid = Array.from(locationFields).some(field => field.checked);
+    
+    // Appelle la fonction validateField avec trois arguments dont locationContainer : le conteneur autour des champs de saisie de lieu / isLocationValid : un booléen indiquant si au moins un champ de saisie est coché.
+    if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
+    console.log("Validation ville sélectionnée:", isLocationValid);
+  };
+  validateLocation();
 
   // VALIDATION CONDITIONS D'UTILISATION
-  const checkboxField = document.getElementById('checkbox1').parentNode;
-  const isCheckboxValid = document.getElementById('checkbox1').checked;
-  // Si la case n'est pas cochée, affiche un message d'erreur.
-  if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
-  console.log("Validation conditions générales:", isCheckboxValid);
+  const validateConditions = () => {
+    // Récupére le conteneur parent de la case à cocher au lieu de la case à cocher elle-même.
+    const checkboxField = document.getElementById('checkbox1').parentNode;
+    // Obtient simplement l'état de vérification de la case à cocher (checked) et l'utilise comme validation interne à la fonction.
+    const isCheckboxValid = document.getElementById('checkbox1').checked;
+    // Si la case à cocher n'est pas cochée, un message d'erreur est affiché. Contrairement aux autres fonctions qui ajoutent des attributs ou des messages d'erreur à un élément spécifique du formulaire, celui-ci affiche simplement un message d'erreur général.
+    if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
+    // Affiche le résultat de la validation dans la console, comme les autres fonctions.
+    console.log("Validation conditions générales:", isCheckboxValid);
+  };
+  validateConditions();
+  
 
   
   //// Soumet le formulaire si toutes les validations sont réussies et ouvre la SuccessModale en appelant la fonction "showSuccessModal()". ////
@@ -239,7 +250,7 @@ closeSuccessX.addEventListener("click", hideSuccessModal);
 
 
 
-////// Avec l'ajout des concole.log à chaque étape clé du processus de validation, un message s'affichera dans la console qui aide à comprendre comment et quand chaque partie du code est exécutée. ////////
+////// Ajout des concole.log à des étapes clé du processus de validation, un message s'affiche dans la console qui aide à comprendre comment et quand chaque partie du code est exécutée. ////////
 
 
 
