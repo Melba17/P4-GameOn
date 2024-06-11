@@ -12,14 +12,22 @@ function toggleMenu() {
 
   // Si l'écran est moins grand que 1080px..
   if (window.innerWidth <= 1080) {
-    // Ajout de la classe .menu_toggle pour basculer vers l'affichage du menu.
-    menuList.classList.toggle("menu_toggle");
+    // Si la balise ul contient déjà la classe "menu_toggle" en plus de la classe .list...
+    if (menuList.classList.contains("menu_toggle")) {
+      // ..alors on la supprime.
+      menuList.classList.remove("menu_toggle");
+      // test pour voir dans la console si l'action fonctionne bien.
+      console.log("Classe menu_toggle supprimée.");
+    } else {
+      // Sinon, on l'ajoute.
+      menuList.classList.add("menu_toggle");
+      // test pour voir dans la console si l'action fonctionne bien.
+      console.log("Classe menu_toggle ajoutée.");
+    }
   }
-  // Affichage dans la console pour vérifier l'état du menu ce qui permet de savoir que l'interface utilisateur a été modifiée en réponse à l'interaction de l'utilisateur.
-  console.log("Classe menu_toggle ajoutée ou supprimée.");
 }
 
 
 // Ajout d'un gestionnaire d'événements pour le clic sur l'icône avec l'appel de la fonction toggleMenu ci-dessus.
 menuIcon.addEventListener("click", toggleMenu);
-// Pas de console.log parce que cette ligne de code ne produit pas une action observable à ce moment précis, mais associe simplement une fonction à un événement futur, néanmoins on pourrait en mettre un pour confirmer que l'association de l'événement a bien été effectuée avec console.log("Gestionnaire d'événement ajouté pour le clic sur l'icône "du menu.");
+// Pas de console.log parce que cette ligne de code ne produit pas une action observable à ce moment précis, mais associe simplement une fonction à un événement futur, néanmoins on pourrait en mettre un pour confirmer que l'association de l'événement a bien été effectuée.

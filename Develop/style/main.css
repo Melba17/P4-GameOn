@@ -94,11 +94,7 @@ footer {
   height: 2.5rem;
 }
 
-/** Barre de Navigation **/
-.main-navbar {
-  float: right;
-}
-
+/*** Barre de Navigation ***/
 .list {
   display: flex;
   gap: 10px;
@@ -257,7 +253,7 @@ footer {
   margin-bottom: 100px;
   padding: 0;
 }
-/** Paramètres boutons Page Accueil (1 au-dessus de 990px et un deuxième au-dessous de 990px) **/
+/** Paramètres boutons Page Accueil (1 au-dessus de 1080px et un deuxième au-dessous de 1080px) **/
 .btn-signup {
   /** pour supprimer l'effet de soulignement autour d'un élément en focus **/
   outline: none;
@@ -493,7 +489,7 @@ input {
   transition: 0.3s;
 }
 
-/** Aspect interieur de base des boutons radios et checkboxes **/
+/** Interieur Boutons radios et checkboxes **/
 .checkbox-label .checkbox-icon::after,
 .checkbox2-label .checkbox-icon::after {
   content: "";
@@ -501,8 +497,6 @@ input {
   height: 13px;
   background-color: #279e7a;
   border-radius: 50%;
-  text-indent: 29px;
-  white-space: nowrap;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -571,7 +565,7 @@ input {
 .formData[data-error-visible="true"]::after {
   opacity: 1;
 }
-/** encadré rouge pour le champ concerné lorsqu'il y a un message d'erreur **/
+/** encadré rouge de l'input concerné lorsqu'il y a un message d'erreur **/
 .formData[data-error-visible="true"] .text-control {
   border: 3px solid #fe142f;
 }
