@@ -1,6 +1,11 @@
 ///////////// ICÔNE BURGER/MENU //////////////////
-// Sélection de l'icône du menu. Variable en dehors de la fonction car reste accessible dans tout le script (ou dans tout le bloc de portée dans lequel elle est définie). On peut donc la réutiliser sans avoir à la redéfinir. Elle reste également une référence statique à un élément spécifique du DOM et donc n'a pas besoin d'être recalculée chaque fois que la fonction est exécutée.
+// Sélection de l'icône du menu. Variable en dehors de la fonction car reste accessible dans tout le script. On peut donc la réutiliser au besoin sans avoir à la redéfinir. Elle reste également une référence statique à un élément spécifique du DOM et donc n'a pas besoin d'être recalculée chaque fois que la fonction est exécutée.
 const menuIcon = document.getElementById("btn_hamb");
+
+// Ajout d'un gestionnaire d'événements pour le clic sur l'icône avec l'appel de la fonction toggleMenu ci-dessous.
+menuIcon.addEventListener("click", toggleMenu);
+
+
 
 // Fonction de basculement pour gérer le clic sur l'icône du menu.
 function toggleMenu() {
@@ -12,22 +17,18 @@ function toggleMenu() {
 
   // Si l'écran est moins grand que 1080px..
   if (window.innerWidth <= 1080) {
-    // Si la balise ul contient déjà la classe "menu_toggle" en plus de la classe .list...
-    if (menuList.classList.contains("menu_toggle")) {
-      // ..alors on la supprime.
-      menuList.classList.remove("menu_toggle");
-      // test pour voir dans la console si l'action fonctionne bien.
-      console.log("Classe menu_toggle supprimée.");
-    } else {
-      // Sinon, on l'ajoute.
+    // et si la balise ul ne contient pas la classe "menu_toggle", en plus de la classe .list...
+    if (!menuList.classList.contains("menu_toggle")) {
+      // ..alors on l'ajoute, donc on ouvre le menu.
       menuList.classList.add("menu_toggle");
       // test pour voir dans la console si l'action fonctionne bien.
       console.log("Classe menu_toggle ajoutée.");
+    } else {
+      // Sinon, on la supprime, donc on ferme le menu.
+      menuList.classList.remove("menu_toggle");
+      // test pour voir dans la console si l'action fonctionne bien.
+      console.log("Classe menu_toggle supprimée.");
     }
   }
 }
 
-
-// Ajout d'un gestionnaire d'événements pour le clic sur l'icône avec l'appel de la fonction toggleMenu ci-dessus.
-menuIcon.addEventListener("click", toggleMenu);
-// Pas de console.log parce que cette ligne de code ne produit pas une action observable à ce moment précis, mais associe simplement une fonction à un événement futur, néanmoins on pourrait en mettre un pour confirmer que l'association de l'événement a bien été effectuée.

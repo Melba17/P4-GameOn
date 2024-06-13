@@ -1,18 +1,17 @@
 /////////// POUR OUVRIR LA MODALE AVEC LES BOUTONS. /////////////////
 // Variable qui sélectionne tous les boutons existants pour ouvrir la modale.
 const modalBtn = document.querySelectorAll(".modal-btn");
-// Sélection de l'ensemble du bloc qui contient la modale.
-const modalbg = document.querySelector(".bground"); 
 
 // Fonction pour ouvrir la modale.
 function launchModal() {
   // je demande à la variable de rendre l'ensemble de la modale visible.
   modalbg.style.display = "block";
 }
-// On reprend la variable des boutons à laquelle on applique la méthode "forEach" qui va parcourir la liste des boutons auxquels est ajouté un écouteur d'événement qui déclenche la fonction launchModal lorsque l'élément est cliqué.
+// On reprend la variable liste des boutons à laquelle on applique la méthode "forEach" qui va parcourir la liste des boutons auxquels est ajouté un écouteur d'événement qui déclenche la fonction launchModal lorsque l'élément est cliqué.
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-
+// Sélection de l'ensemble du bloc qui contient la modale.
+const modalbg = document.querySelector(".bground"); 
 ////////////// POUR FERMER LA MODALE AVEC LA CROIX. ////////////////////
 // Variable qui sélectionne l'élément de fermeture de la Modale, ici, la croix.
 const closeBtn = document.querySelector(".close");
@@ -28,17 +27,19 @@ closeBtn.addEventListener("click", closeModal);
 
 
 /////////////////////// FORMULAIRE ///////////////////////////
-// Sélectionne l'ensemble du formulaire pour gérer la soumission de celui-ci en fin de code/au clic sur le bouton.
+// Variable qui sélectionne l'ensemble du formulaire.
 const form = document.querySelector('form[name="reserve"]');
+////// On reprend cette variable à laquelle on ajoute l'écouteur d'événement "submit" lorsque l'utilisateur soumet le formulaire en cliquant sur le bouton "c'est parti !" et on appelle la fonction validateForm pour tester simultanément l'ensemble des champs. 
+form.addEventListener('submit', validateForm);
 
-////// MÉTHODE SPÉCIFIQUE POUR LES MESSAGES D'ERREUR ///////
-// Sélection tous les éléments/blocs avec la classe "formData" du formulaire pour leur appliquer le style prédéfini dans le fichier CSS.
+////// ASPECT DES MESSAGES D'ERREUR ///////
+// Sélection de tous les éléments/blocs ayant la classe "formData" du formulaire pour appliquer 1 style css prédéfini aux différents messages d'erreur le moment venu.
 const formData = document.querySelectorAll(".formData");
 
 
 // PRINCIPE DE BASE POUR LA GESTION DES MESSAGES D'ERREUR
-// La fonction validateField (appelée à plusieurs reprises dans la fonction "validateField") prend trois arguments : 
-// - field : l'élément à valider dans le bloc parent.
+// La fonction validateField prend trois arguments : 
+// - field : l'élément à valider.
 // - condition : une condition booléenne à remplir.
 // - errorMessage : le message d'erreur à afficher si la condition est fausse.
 
@@ -63,9 +64,7 @@ function validateForm(event) {
   let isFormValid = true;
 
   // VALIDATION DES CHAMPS NOM ET PRÉNOM
-  // Cette variable déclare une fonction fléchée "validateName" qui prend trois arguments : 
-  // - fieldName: l'ID du champ de saisie à valider.
-  // - minLength: la longueur minimale que la valeur du champ doit avoir.
+  // Cette variable déclare une fonction fléchée qui prend trois arguments : fieldName: l'ID du champ de saisie à valider / minLength: la longueur minimale que la valeur du champ doit avoir et le message d'erreur spécifique.
   // - errorMessage: le message d'erreur à afficher si la validation échoue.
   const validateName = (fieldName, minLength, errorMessage) => {
     // Récupère le bloc parent où se trouve l'ID du champ nom ou prénom.
@@ -87,12 +86,12 @@ function validateForm(event) {
     // Affiche dans la console le résultat de la validation pour le champ spécifié "true" ou "false"
     console.log(`Validation ${fieldName}:`, isValid);
   };
-  // Appelle la fonction validateName pour valider le champ avec l'ID 'first'(Prénom) avec un minmum de 2 caractères et le messaged'erreur à afficher.
+  // Activation de la fonction pour le champ avec l'Id 'first'(Prénom) avec un minimum de 2 caractères et le message d'erreur à afficher.
   validateName('first', 2, "Le champ doit contenir au moins 2 lettres / les chiffres ne sont pas autorisés.");
-  // Idem mais pour l'ID 'last'(Nom).
+  // Idem mais pour l'Id 'last'(Nom).
   validateName('last', 2, "Le champ doit contenir au moins 2 lettres / Les chiffres ne sont pas autorisés.");
 
-  ////// Les fonctions suivantes ont le même principe de base mais sont adaptées à des types de champs différents et à des critères de validation spécifiques. //////////
+  ////// Les fonctions suivantes ont le même principe de test mais avec une condition définie spécifique pour le champ en question. //////////
 
   // VALIDATION DE L'EMAIL
   const validateEmail = () => {
@@ -102,14 +101,14 @@ function validateForm(event) {
     const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]+");
   const isValid = validateField(
     field,
-    // Condition de validation : vérifie si l'email respecte le format défini par la regex.
+    // Condition de validation : vérifie si la valeur entrée par l'utilisateur respecte le format défini dans la regexp.
     emailRegex.test(email),
     "L'adresse email n'est pas valide."
   );
   if (!isValid) isFormValid = false;
   console.log("Validation email:", isValid);
 }
-// Appelle la fonction validateEmail pour valider le champ d'entrée avec l'ID 'email'.
+// Activation de la fonction.
   validateEmail();
 
 
@@ -153,24 +152,22 @@ function validateForm(event) {
   validateQuantity();
 
    // VALIDATION LORSQU'UNE VILLE EST SÉLECTIONNÉE
-   // Variable structurée un peu différemment par rapport aux autres fonctions de validation. Au lieu de vérifier directement le champ de saisie individuel, elle vérifie l'ensemble des champs de saisie de lieu (boutons radio) et fournit un message d'erreur si aucun champ n'est sélectionné. Cette approche est logique car les boutons radio n'offrent qu'un seul choix parmi plusieurs options.
+   // Variable structurée un peu différemment par rapport aux autres fonctions de validation. Au lieu de vérifier directement le champ de saisie individuel, elle contrôle une liste d'options (boutons radio) et fournit un message d'erreur si aucune option est cochée. Approche logique car les boutons radio n'offrent qu'un seul choix parmi plusieurs options.
    const validateLocation = () => {
     // Récupère la liste des éléments DOM ayant un attribut "name" égal à "location".
     const locationFields = document.querySelectorAll('input[name="location"]');
     // Récupère le premier élément de cette liste avec [0] / recherche l'élément parent qui a la classe CSS "formData" dans le DOM avec la méthode .closest ()
     const locationContainer = locationFields[0].closest('.formData');
-    
-    // Initialise une variable pour vérifier si un champ de saisie est coché.
+    // Initialise à "false" une variable concernant l'ensemble des options puisqu'au départ rien n'est coché.
     let isLocationValid = false;
-
     // Utilisation d'une boucle "for" pour vérifier si un champ est coché.
+    // on initialise le compteur à 0; on parcourt l'ensemble de la liste; on passe à l'option/bouton radio suivant en incrémentant. On répète la boucle tant qu'on a pas trouvé d'option.
     for (let i = 0; i < locationFields.length; i++) {
         if (locationFields[i].checked) {
             isLocationValid = true;
             break; // On sort de la boucle dès qu'on a trouvé un champ coché.
         }
     }
-    
     // Appelle la fonction validateField avec trois arguments dont locationContainer : le conteneur autour des champs de saisie de lieu / isLocationValid : un booléen indiquant si au moins un champ de saisie est coché.
     if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
     
@@ -192,7 +189,6 @@ function validateForm(event) {
   };
   validateConditions();
   
-
   
   //// Soumet le formulaire si toutes les validations sont réussies et ouvre la SuccessModale en appelant la fonction "showSuccessModal()". ////
   if (isFormValid) {
@@ -201,8 +197,7 @@ function validateForm(event) {
   console.log("Formulaire valide:", isFormValid);
 }
 
-////// On appelle la variable "form" (définit en début de code) à laquelle on ajoute un écouteur d'événement pour le bouton "c'est parti !" (avec l'attribut "submit") qui appelle la fonction validateForm (la plus grosse fonction) lorsque celui-ci est correctement rempli. /////////
-form.addEventListener('submit', validateForm);
+
 
 
 /////////////////////// SUCCESS MODALE /////////////////////////
@@ -212,15 +207,14 @@ const successModal = document.querySelector('.modal_success');
 // POUR OUVERTURE
 // Cette fonction est appelée lorsque le formulaire est valide. 
 function showSuccessModal() {
-  // Fonction de réinitialisation du formulaire (prédéfini au-dessous).
-  resetForm();
   // Sélectionne la modale principale...
   const mainModal = document.querySelector('.bground');
   // ...pour la rendre invisible.
   mainModal.style.display = 'none';
-  // Sélection du bloc qui contient la SuccessModale...
+  // Sélection du bloc qui contient la SuccessModale pour la rendre visible.
   successModal.style.display = 'flex';
-  // ... pour la rendre visible
+  // Fonction de réinitialisation du formulaire (prédéfini au-dessous).
+  resetForm();
   console.log("Fenêtre modale de succès affichée");
 }
 

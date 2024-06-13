@@ -561,7 +561,7 @@ input {
   opacity: 0;
   transition: 0.3s;
 }
-/** Apparition des messages d'erreurs lorsqu'appelés en JS **/
+/** Apparition des messages d'erreurs lorsqu'appelés en JS avec opacité à 100% **/
 .formData[data-error-visible="true"]::after {
   opacity: 1;
 }
