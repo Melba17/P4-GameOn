@@ -10,8 +10,10 @@ function launchModal() {
 // On reprend la variable liste des boutons à laquelle on applique la méthode "forEach" qui va parcourir la liste des boutons auxquels est ajouté un écouteur d'événement qui déclenche la fonction launchModal lorsque l'élément est cliqué.
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// Sélection de l'ensemble du bloc qui contient la modale.
+
+// Sélection de l'ensemble du bloc html qui contient la modale.
 const modalbg = document.querySelector(".bground"); 
+
 ////////////// POUR FERMER LA MODALE AVEC LA CROIX. ////////////////////
 // Variable qui sélectionne l'élément de fermeture de la Modale, ici, la croix.
 const closeBtn = document.querySelector(".close");
@@ -49,7 +51,7 @@ function validateField(field, condition, errorMessage) {
     field.setAttribute('data-error', errorMessage);
     field.setAttribute('data-error-visible', 'true');
     return false;
-  } // Si la condition est vraie, elle supprime les attributs data-error et data-error-visible de l'élément field et renvoie true dans la console.
+  } // Si la condition est vrai/bonne, elle supprime les attributs data-error et data-error-visible de l'élément field et renvoie true dans la console.
     else {
     field.removeAttribute('data-error');
     field.removeAttribute('data-error-visible');
@@ -82,8 +84,10 @@ function validateForm(event) {
     errorMessage
   );
     // Si isValid est false (la validation a échoué), la variable globale isFormValid est définie à false. Cela signifie que le formulaire contient au moins une erreur de validation.
-    if (!isValid) isFormValid = false;
-    // Affiche dans la console le résultat de la validation pour le champ spécifié "true" ou "false"
+    if (!isValid) {
+      isFormValid = false;
+    }
+    // Affiche dans la console l'Id du champ en question et le résultat de la validation pour le champ spécifié "true" ou "false"
     console.log(`Validation ${fieldName}:`, isValid);
   };
   // Activation de la fonction pour le champ avec l'Id 'first'(Prénom) avec un minimum de 2 caractères et le message d'erreur à afficher.
@@ -99,13 +103,16 @@ function validateForm(event) {
     const email = document.getElementById('email').value.trim();
     // Création d'une nouvelle expression régulière (regex) pour valider le format de l'adresse email.
     const emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]+");
+
   const isValid = validateField(
     field,
     // Condition de validation : vérifie si la valeur entrée par l'utilisateur respecte le format défini dans la regexp.
     emailRegex.test(email),
     "L'adresse email n'est pas valide."
   );
-  if (!isValid) isFormValid = false;
+  if (!isValid) {
+    isFormValid = false;
+  }
   console.log("Validation email:", isValid);
 }
 // Activation de la fonction.
@@ -128,10 +135,13 @@ function validateForm(event) {
       age >= 18 && age <= 100,
       "Vous devez avoir au moins 18 ans / Maximum 100 ans."
     );
-    if (!isValid) isFormValid = false;
+    if (!isValid) {
+      isFormValid = false;
+    }
     // Affiche dans la console le résultat de la validation de la date de naissance et l'âge calculé.
     console.log("Validation date de naissance:", isValid, "Âge:", age);
   };
+
   validateBirthdate();
 
 
@@ -146,9 +156,13 @@ function validateForm(event) {
       !isNaN(quantityValue) && quantityValue !== "" && Number(quantityValue) > 0,
       "Veuillez entrer un chiffre supérieur à zéro."
     );
-    if (!isValid) isFormValid = false;
+
+    if (!isValid) {
+      isFormValid = false;
+    }
     console.log("Validation quantité:", isValid);
   };
+
   validateQuantity();
 
    // VALIDATION LORSQU'UNE VILLE EST SÉLECTIONNÉE
@@ -161,35 +175,43 @@ function validateForm(event) {
     // Initialise à "false" une variable concernant l'ensemble des options puisqu'au départ rien n'est coché.
     let isLocationValid = false;
     // Utilisation d'une boucle "for" pour vérifier si un champ est coché.
-    // on initialise le compteur à 0; on parcourt l'ensemble de la liste; on passe à l'option/bouton radio suivant en incrémentant. On répète la boucle tant qu'on a pas trouvé d'option.
+    // on initialise le compteur à 0; on parcourt l'ensemble de la liste; on passe à l'option/bouton radio suivant en incrémentant. On répète la boucle tant qu'on a pas trouvé d'option cochée.
     for (let i = 0; i < locationFields.length; i++) {
         if (locationFields[i].checked) {
             isLocationValid = true;
             break; // On sort de la boucle dès qu'on a trouvé un champ coché.
         }
     }
-    // Appelle la fonction validateField avec trois arguments dont locationContainer : le conteneur autour des champs de saisie de lieu / isLocationValid : un booléen indiquant si au moins un champ de saisie est coché.
-    if (!validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")) isFormValid = false;
-    
-    console.log("Validation ville sélectionnée:", isLocationValid)
+   
+    const isValid = validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")
+
+    if (!isValid) {
+      isFormValid = false;
+    }
+
+     console.log("Validation ville sélectionnée:", isLocationValid)
   };
+
   validateLocation();
 
 
   // VALIDATION CONDITIONS D'UTILISATION
   const validateConditions = () => {
-    // Récupére le conteneur parent de la case à cocher au lieu de la case à cocher elle-même.
     const checkboxField = document.getElementById('checkbox1').parentNode;
     // Obtient simplement l'état de vérification de la case à cocher (checked) et l'utilise comme validation interne à la fonction.
     const isCheckboxValid = document.getElementById('checkbox1').checked;
-    // Si la case à cocher ne l'est pas, un message d'erreur est affiché. 
-    if (!validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")) isFormValid = false;
-    // Affiche le résultat de la validation dans la console, comme les autres fonctions.
+    
+    const isValid = validateField(checkboxField, isCheckboxValid, "Veuillez accepter les conditions d'utilisation.")
+
+    if (!isValid) {
+      isFormValid = false;
+    }
     console.log("Validation conditions générales:", isCheckboxValid);
   };
+
   validateConditions();
   
-  
+
   //// Soumet le formulaire si toutes les validations sont réussies et ouvre la SuccessModale en appelant la fonction "showSuccessModal()". ////
   if (isFormValid) {
     showSuccessModal(); 
@@ -207,15 +229,14 @@ const successModal = document.querySelector('.modal_success');
 // POUR OUVERTURE
 // Cette fonction est appelée lorsque le formulaire est valide. 
 function showSuccessModal() {
-  // Sélectionne la modale principale...
-  const mainModal = document.querySelector('.bground');
-  // ...pour la rendre invisible.
-  mainModal.style.display = 'none';
+  // j'appelle à nouveau ma variable modalbg(bloc formulaire) pour la rendre invisible.
+  modalbg.style.display = 'none';
   // Sélection du bloc qui contient la SuccessModale pour la rendre visible.
   successModal.style.display = 'flex';
   // Fonction de réinitialisation du formulaire (prédéfini au-dessous).
-  resetForm();
   console.log("Fenêtre modale de succès affichée");
+  // Remise à zéro du formulaire.
+  resetForm();
 }
 
 // REMISE À ZÉRO DU FORMULAIRE LORSQUE VALIDATION RÉUSSIE
@@ -232,14 +253,14 @@ function resetForm() {
 // POUR FERMETURE AVEC LE BOUTON
 // Variable qui sélectionne le bouton de fermeture de la SuccessModale.
 const closeModalButton = document.querySelector('.modal_success .btn-submit');
-// Ajout d'un écouteur
+// Ajout d'un écouteur d'évènement au bouton.
 closeModalButton.addEventListener('click', hideSuccessModal);
 
 
 // POUR FERMETURE AVEC LA CROIX
 // Sélection de la croix de fermeture de la SuccessModale.
 const closeSuccessX = document.querySelector(".modal_success .close");
-// Ajout d'un écouteur d'évènement.
+// Ajout d'un écouteur d'évènement à la croix.
 closeSuccessX.addEventListener("click", hideSuccessModal);
 
 // FONCTION UTILISÉE PAR LES 2 ÉLÉMENTS (BOUTON/CROIX).
