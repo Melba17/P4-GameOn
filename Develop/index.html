@@ -81,7 +81,6 @@
           <span class="close"></span>
           <div class="modal-body">
             <!-- FORMULAIRE -->
-            <!-- Le nom (name) attribué à la balise <form> est utilisé pour identifier le formulaire dans le code JavaScript lorsqu'il est nécessaire de le faire notamment lorsqu'un écouteur d'événement est ajouté pour intercepter la soumission du formulaire et appliquer la validation -->
             <!-- "novalidate" pour empêcher le navigateur de prendre en charge la validation du formulaire -->
             <form name="reserve" action="index.html" method="get" novalidate>
               <!-- CHAÎNE DE CARACTÈRES -->
@@ -103,6 +102,7 @@
                   name="last"
                 /><br />
               </div>
+              <!-- MAIL -->
               <div class="formData">
                 <label for="email">E-mail</label><br />
                 <input
@@ -128,7 +128,7 @@
                   >À combien de tournois GameOn avez-vous déjà participé
                   ?</label
                 ><br />
-                <!-- min="0" pour pas aller dans les valeurs négatives et step="1" limite les entrées aux entiers-->
+                <!-- min="0" pour ne pas aller dans les valeurs négatives et step="1" limite les entrées aux entiers-->
                 <input
                   type="number"
                   class="text-control"
