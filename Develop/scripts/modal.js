@@ -182,15 +182,14 @@ function validateForm(event) {
             break; // On sort de la boucle dès qu'on a trouvé un champ coché.
         }
     }
-   
+    
     const isValid = validateField(locationContainer, isLocationValid, "Veuillez choisir une ville.")
-
     if (!isValid) {
       isFormValid = false;
     }
-
      console.log("Validation ville sélectionnée:", isLocationValid)
   };
+  
 
   validateLocation();
 
